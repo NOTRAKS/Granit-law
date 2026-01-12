@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/Granit-law',
+  basePath: process.env.NODE_ENV === 'production' ? '/Granit-law' : '',
   typescript: {
     ignoreBuildErrors: true,
   },
