@@ -30,9 +30,10 @@ jobs:
       - name: Build
         run: pnpm build
       
-      - name: Deploy to gh-pages
+      - name: Deploy to docs folder
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
-          cname: false
+          destination_dir: ./docs
+          keep_files: false
