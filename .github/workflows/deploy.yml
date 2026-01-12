@@ -38,6 +38,13 @@ jobs:
       
       - name: Build
         run: pnpm build
+        env:
+          NODE_ENV: production
+      
+      - name: Check build output
+        run: |
+          ls -la out/ || echo "out directory not found"
+          ls -la .next/ || echo ".next directory not found"
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
