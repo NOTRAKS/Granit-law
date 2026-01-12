@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build and Deploy to docs
 
 on:
   push:
@@ -10,11 +10,13 @@ permissions:
   contents: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -30,10 +32,13 @@ jobs:
       - name: Build
         run: pnpm build
       
-      - name: Deploy to docs folder
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
-          destination_dir: ./docs
-          keep_files: false
+      - name: Commit to docs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          rm -rf docs
+          mkdir -p docs
+          cp -r out/* docs/
+          git add docs/
+          git commit -m "Deploy to docs folder" || exit 0
+          git push origin main
