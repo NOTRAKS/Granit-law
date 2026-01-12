@@ -33,6 +33,19 @@ jobs:
           node-version: '20'
           cache: 'pnpm'
       
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       
@@ -40,11 +53,6 @@ jobs:
         run: pnpm build
         env:
           NODE_ENV: production
-      
-      - name: Check build output
-        run: |
-          ls -la out/ || echo "out directory not found"
-          ls -la .next/ || echo ".next directory not found"
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
