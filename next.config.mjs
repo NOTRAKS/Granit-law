@@ -9,7 +9,6 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
-  assetPrefix: '/Granit-law',
 }
 
 export default nextConfig
