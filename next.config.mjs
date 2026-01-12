@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/Granit-law',
   typescript: {
     ignoreBuildErrors: true,
   },
